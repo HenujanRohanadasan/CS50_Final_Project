@@ -1,3 +1,28 @@
+:root {
+    --bs-primary: 	#2D6A4F;
+    --bs-primary-rgb: 169, 171, 136;
+
+    --bs-secondary: #74C69D;
+    --bs-secondary-rgb: 212, 195, 161;
+}
+
+[data-bs-theme="dark"] {
+    --bs-primary: 	#52B788;
+    --bs-primary-rgb: 169, 171, 136;
+
+    --bs-secondary: #40916C;
+    --bs-secondary-rgb: 212, 195, 161;
+}
+
 .example {
-    color: #00f0ff;
+    color: var(--bs-primary);
+}
+
+.nav-container {
+    padding: 1% 1% 1% 1%;
+}
+
+.navbar {
+    border-radius: 5px;
+    background-color: var(--bs-primary);
 }
