@@ -19,6 +19,7 @@ with app.app_context():
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
+login_manager.login_message_category = 'warning'
 login_manager.init_app(app)
 
 
@@ -84,6 +85,12 @@ def register():
             flash('Password must be at least 8 characters', category='warning')
             return redirect('/register')
         
+        user = User.query.filter_by(user_name=user_name).first()
+
+        if user is not None:
+            flash('Username already taken', category='warning')
+            return redirect('/register')
+        
 
         user = User(user_name=user_name, password=generate_password_hash(password))
 
@@ -105,4 +112,4 @@ def about():
 @login_required
 def logout():
     logout_user()
-    return redirect('/')
+    return redirect('/login')
