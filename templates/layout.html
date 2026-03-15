@@ -45,7 +45,7 @@
                 </div>
             </nav>
         </div>
-        <div>
+        <div class="container">
             {% with mesasges = get_flashed_messages(with_categories=true) %}
                 {% if mesasges %}
                     {% for category, message in mesasges %}
@@ -56,14 +56,6 @@
                     {% endfor %}
                 {% endif %}
             {% endwith %}
-        </div>
-        <div class="container">
-            {% for category, message in get_flashed_messages(with_categories=true) %}
-                <div class="alert alert-{{ category }} alert-dismissible" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endfor %}
         </div>
         <div class="container">
             {% block main %}{% endblock %}
