@@ -14,6 +14,13 @@
     --bs-secondary-rgb: 212, 195, 161;
 }
 
+.btn-primary{
+    --bs-btn-bg: var(--bs-primary);
+    --bs-btn-border-color: var(--bs-primary);
+    --bs-btn-hover-bg: 	#24523d;
+    --bs-btn-hover-border-color:	#24523d;
+}
+
 .nav-container {
     padding: 1% 1% 1% 1%;
 }
