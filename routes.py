@@ -122,7 +122,7 @@ def valve():
             flash('Valve number must be a positive integer', category='warning')
             return redirect('/valve')
         
-    
+        
         valve = Valve.query.filter_by(location=location, valve_no=valve_no).first()
 
         if valve is not None:

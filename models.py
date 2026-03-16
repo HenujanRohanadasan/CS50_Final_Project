@@ -11,6 +11,6 @@ class User(UserMixin, db.Model):
 
 class Valve(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    location = db.Column(db.String(80), nullable=False, unique=True)
-    valve_no = db.Column(db.Integer, nullable=False, unique=True)
+    location = db.Column(db.String(80), nullable=False)
+    valve_no = db.Column(db.Integer, nullable=False)
     status = db.Column(db.Integer, nullable=False)
