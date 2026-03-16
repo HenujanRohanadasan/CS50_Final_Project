@@ -21,6 +21,13 @@
     --bs-btn-hover-border-color:	#24523d;
 }
 
+.btn-danger{
+    --bs-btn-bg: #973700;
+    --bs-btn-border-color: #973700;
+    --bs-btn-hover-bg: #772c00;
+    --bs-btn-hover-border-color: #772c00;
+}
+
 .nav-container {
     padding: 1% 1% 1% 1%;
 }
