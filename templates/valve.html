@@ -37,9 +37,20 @@
                         {% for valve_no in valves[location] %}
                             <div class="accordion-collapse collapse" id="collapse-{{ location }}" data-bs-parent="accordion">
                                 <div class="accordion-body">
-                                    <h3>
-                                        {{ valve_no }}
-                                    </h3>
+                                    <div class="row">
+                                        <div class="col text-start">
+                                            <h3>
+                                                {{ valve_no }}
+                                            </h3>
+                                        </div>
+                                        <div class="col text-end">
+                                            <form action="/valve-delete" method="post">
+                                                <input name="location" type="hidden" value="{{ location }}">
+                                                <input name="valve_no" type="hidden" value="{{ valve_no }}">
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         {% endfor %}
