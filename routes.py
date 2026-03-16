@@ -92,3 +92,9 @@ def about():
 def logout():
     logout_user()
     return redirect('/login')
+
+
+@app.route('/valve')
+@login_required
+def valve():
+    return render_template('valve.html')
