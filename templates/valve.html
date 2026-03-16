@@ -6,10 +6,9 @@
 
 {% block main %}
     <div class="container">
-        <h1>Valve</h1>
-        <br>
-        <div style="border-radius: 5px; border-style: solid;">
+        <div style="border-radius: 5px; border-style: solid; border-color: #efefef">
             <div style="padding: 5% 5% 5% 5%; background-color: #eeeeee">
+                <h3 style="text-align: center; justify-content: center">Add Valve</h3>
                 <form action="/valve" method="post">
                     <div class="mb-3">
                     <label for="location" class="form-label">Location</label>
@@ -25,6 +24,8 @@
         </div>
         <br>
         <div style="padding-left: 30%; padding-right: 30%">
+            <h3 style="text-align: center;">Valves</h3>
+            <br>
             <div class="accordion" id="accordion">
                 {% for location in valves.keys() %}
                     <div class="accordion-item">
