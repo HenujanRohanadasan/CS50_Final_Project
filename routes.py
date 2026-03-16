@@ -11,7 +11,14 @@ from collections import defaultdict
 @app.route("/")
 @login_required
 def index():
-    return render_template("index.html")
+    valves = Valve.query.all()
+    valves_dict = defaultdict(list)
+
+    for valve in valves:
+        key = valve.location
+        valves_dict[key].append([valve.valve_no, valve.status])
+
+    return render_template("index.html", valves=valves_dict)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -149,3 +156,20 @@ def valve_delete():
     db.session.commit()
 
     return redirect('/valve')
+
+
+@app.route('/valve-switch-status', methods=['POST'])
+def switch_valve():
+    location = request.form.get('location')
+    valve_no = request.form.get('valve_no')
+
+    valve = Valve.query.filter_by(location=location, valve_no=valve_no).first()
+
+    if valve.status == 0:
+        valve.status = 1
+    else:
+        valve.status = 0
+
+    db.session.commit()
+
+    return redirect('/')
