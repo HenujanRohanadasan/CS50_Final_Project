@@ -2,9 +2,11 @@ from flask import render_template, flash, redirect, request
 from flask_login import login_user, logout_user, login_required
 
 from app import app, db
-from models import User
+from models import User, Valve
 
 from werkzeug.security import generate_password_hash, check_password_hash
+
+from collections import defaultdict
 
 @app.route("/")
 @login_required
@@ -94,7 +96,42 @@ def logout():
     return redirect('/login')
 
 
-@app.route('/valve')
+@app.route('/valve', methods=['GET', 'POST'])
 @login_required
 def valve():
-    return render_template('valve.html')
+    if request.method == 'GET':
+        valves = Valve.query.all()
+        valves_dict = defaultdict(list)
+
+        for valve in valves:
+            key = valve.location
+            valves_dict[key].append(valve.valve_no)
+
+        return render_template('valve.html', valves=valves_dict)
+    
+    elif request.method == 'POST':
+
+        location = request.form.get('location')
+        valve_no = request.form.get('valve_no')
+
+        if (location == '') or (valve_no == ''):    
+            flash('Please fill location and valve number', category='warning')
+            return redirect('/valve')
+        
+        elif valve_no.isnumeric() == False or int(valve_no) < 0:
+            flash('Valve number must be a positive integer', category='warning')
+            return redirect('/valve')
+        
+    
+        valve = Valve.query.filter_by(location=location, valve_no=valve_no).first()
+
+        if valve is not None:
+            flash('Valve already exists', category='warning')
+            return redirect('/valve')
+
+        valve  = Valve(location=location, valve_no=valve_no, status=0)
+
+        db.session.add(valve)
+        db.session.commit()
+
+        return redirect('/valve')
