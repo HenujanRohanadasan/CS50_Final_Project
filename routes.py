@@ -135,3 +135,17 @@ def valve():
         db.session.commit()
 
         return redirect('/valve')
+    
+
+@app.route('/valve-delete', methods=['POST'])
+@login_required
+def valve_delete(): 
+    location = request.form.get('location')
+    valve_no = request.form.get('valve_no')
+
+    valve = Valve.query.filter_by(location=location, valve_no=valve_no).first()
+
+    db.session.delete(valve)
+    db.session.commit()
+
+    return redirect('/valve')
