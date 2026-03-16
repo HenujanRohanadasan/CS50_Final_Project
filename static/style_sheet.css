@@ -28,6 +28,11 @@
     --bs-btn-hover-border-color: #772c00;
 }
 
+.accordion-button:not(.collapsed){
+    background-color: rgba(var(--bs-primary-rgb), 0.2);
+    color: rgb(0, 0, 0);
+}
+
 .nav-container {
     padding: 1% 1% 1% 1%;
 }
