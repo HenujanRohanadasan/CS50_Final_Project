@@ -14,3 +14,15 @@ class Valve(db.Model):
     location = db.Column(db.String(80), nullable=False)
     valve_no = db.Column(db.Integer, nullable=False)
     status = db.Column(db.Integer, nullable=False)
+
+
+class Tank(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    location = db.Column(db.String(80), nullable=False)
+    available_percentage = db.Column(db.Float, nullable=False)
+
+
+class TankValve(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    tank_id = db.Column(db.Integer, db.ForeignKey('tank.id'), nullable=False)
+    valve_id = db.Column(db.Integer, db.ForeignKey('valve.id'), nullable=False)

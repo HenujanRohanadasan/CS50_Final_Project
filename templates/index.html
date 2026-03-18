@@ -27,6 +27,11 @@
                                             Valve Status - {{ valve_no[1] }}
                                         </h5>
                                     </div>
+                                    <div class="col text-center">
+                                        <h5>
+                                            Available Water - {{ valve_no[2] }} %
+                                        </h5>
+                                    </div>
                                     <div class="col text-end">
                                         <form action="/valve-switch-status" method="post">
                                             <input name="location" type="hidden" value="{{ location }}">

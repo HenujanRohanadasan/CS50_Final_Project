@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, request
 from flask_login import login_user, logout_user, login_required
 
 from app import app, db
-from models import User, Valve
+from models import User, Valve, Tank, TankValve
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -16,7 +16,8 @@ def index():
 
     for valve in valves:
         key = valve.location
-        valves_dict[key].append([valve.valve_no, valve.status])
+        available_percentage = Tank.query.filter_by(id=TankValve.query.filter_by(valve_id=valve.id).first().tank_id).first().available_percentage
+        valves_dict[key].append([valve.valve_no, valve.status, available_percentage])
 
     return render_template("index.html", valves=valves_dict)
 
@@ -137,8 +138,19 @@ def valve():
             return redirect('/valve')
 
         valve  = Valve(location=location, valve_no=valve_no, status=0)
-
         db.session.add(valve)
+        db.session.commit()
+
+        tank = Tank.query.filter_by(location=location).first()
+
+        if tank is None:
+            tank = Tank(location=location, available_percentage=100)
+            db.session.add(tank)
+            db.session.commit()
+
+        tank_valve = TankValve(tank_id=tank.id, valve_id=valve.id)
+        db.session.add(tank_valve)
+
         db.session.commit()
 
         return redirect('/valve')
@@ -151,9 +163,21 @@ def valve_delete():
     valve_no = request.form.get('valve_no')
 
     valve = Valve.query.filter_by(location=location, valve_no=valve_no).first()
+    tank_valve = TankValve.query.filter_by(valve_id=valve.id).first()
 
     db.session.delete(valve)
     db.session.commit()
+
+    db.session.delete(tank_valve)
+    db.session.commit()
+
+    valve_left_in_location = Valve.query.filter_by(location=location).first()
+
+    if valve_left_in_location is None:
+        tank = Tank.query.filter_by(location=location).first()
+        print('deleting tank', tank)
+        db.session.delete(tank)
+        db.session.commit()
 
     return redirect('/valve')
 
@@ -166,10 +190,19 @@ def switch_valve():
     valve = Valve.query.filter_by(location=location, valve_no=valve_no).first()
 
     if valve.status == 0:
-        valve.status = 1
+        tank = Tank.query.filter_by(id=TankValve.query.filter_by(valve_id=valve.id).first().tank_id).first()
+
+        if tank.available_percentage > 0:
+            valve.status = 1
+            db.session.commit()
+
+            flash('Valve turned on with avilable water {}'.format(tank.available_percentage), category='success')
+
+        else:
+            flash('Tank is empty', category='warning')
+
     else:
         valve.status = 0
-
-    db.session.commit()
+        db.session.commit()
 
     return redirect('/')
