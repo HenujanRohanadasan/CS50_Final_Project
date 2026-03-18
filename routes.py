@@ -183,6 +183,7 @@ def valve_delete():
 
 
 @app.route('/valve-switch-status', methods=['POST'])
+@login_required
 def switch_valve():
     location = request.form.get('location')
     valve_no = request.form.get('valve_no')
@@ -199,6 +200,8 @@ def switch_valve():
 
             flash('Valve turned on with avilable water {}'.format(tank.available_percentage), category='success')
 
+            # publish on mesasge
+
         else:
             flash('Tank is empty', category='warning')
 
@@ -208,10 +211,13 @@ def switch_valve():
 
         flash('Valve turned off remaining water {}'.format(tank.available_percentage), category='success')
 
+        # publish on mesasge
+
     return redirect('/')
 
 
 @app.route('/tank', methods=['GET'])
+@login_required
 def tank():
     if request.method == 'GET':
         tanks = Tank.query.all()
@@ -223,3 +229,20 @@ def tank():
             tanks_dict[key].append([tank.id, tank.available_percentage])
 
         return render_template('tank.html', tanks=tanks_dict)
+    
+
+@app.route('/publish/?<valve_no>?<status>', methods=['GET'])
+@login_required
+def publish(valve_no, status):
+    # publish message
+
+    return
+
+
+@app.route('/update_tank/?<tank_location>?<available_percentage>', methods=['GET'])
+def update_tank(tank_location, available_percentage):
+    tank = Tank.query.filter_by(location=tank_location).first()
+    tank.available_percentage = available_percentage
+    db.session.commit()
+
+    return
