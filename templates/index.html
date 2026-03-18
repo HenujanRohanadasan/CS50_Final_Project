@@ -24,7 +24,7 @@
                                     </div>
                                     <div class="col text-center">
                                         <h5>
-                                            Valve Status - {{ valve_no[1] }}
+                                            Valve Status - {% if valve_no[1] == 1 %} ON {% else %} OFF {% endif %}
                                         </h5>
                                     </div>
                                     <div class="col text-center">
