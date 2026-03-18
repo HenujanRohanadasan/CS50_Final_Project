@@ -189,8 +189,9 @@ def switch_valve():
 
     valve = Valve.query.filter_by(location=location, valve_no=valve_no).first()
 
+    tank = Tank.query.filter_by(id=TankValve.query.filter_by(valve_id=valve.id).first().tank_id).first()
+
     if valve.status == 0:
-        tank = Tank.query.filter_by(id=TankValve.query.filter_by(valve_id=valve.id).first().tank_id).first()
 
         if tank.available_percentage > 0:
             valve.status = 1
@@ -205,4 +206,20 @@ def switch_valve():
         valve.status = 0
         db.session.commit()
 
+        flash('Valve turned off remaining water {}'.format(tank.available_percentage), category='success')
+
     return redirect('/')
+
+
+@app.route('/tank', methods=['GET'])
+def tank():
+    if request.method == 'GET':
+        tanks = Tank.query.all()
+
+        tanks_dict = defaultdict(list)
+
+        for tank in tanks:
+            key = tank.location
+            tanks_dict[key].append([tank.id, tank.available_percentage])
+
+        return render_template('tank.html', tanks=tanks_dict)
