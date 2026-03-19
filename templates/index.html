@@ -70,7 +70,7 @@
                                 <tbody>
                                     <tr>
                                         <td>{{ valve_no[0] }}</td>
-                                        <td>{% if valve_no[1] == 1 %} ON {% else %} OFF {% endif %}</td>
+                                        <td>{% if valve_no[1] == 1 %} <span style="color: green;">ON</span> {% else %}<span style="color: red;">OFF</span>{% endif %}</td>
                                         <td>{{ valve_no[2] }} %</td>
                                         <td>
                                             <form action="/valve-switch-status" method="post">
