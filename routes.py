@@ -2,11 +2,13 @@ from flask import render_template, flash, redirect, request
 from flask_login import login_user, logout_user, login_required
 
 from app import app, db
-from models import User, Valve, Tank, TankValve
+from models import User, Valve, Tank, TankValve, ValveLogs
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from collections import defaultdict
+
+from datetime import datetime
 
 @app.route("/")
 @login_required
@@ -198,6 +200,10 @@ def switch_valve():
             valve.status = 1
             db.session.commit()
 
+            valve_log = ValveLogs(valve_id=valve.id, status=1, time=datetime.now())
+            db.session.add(valve_log)
+            db.session.commit()
+
             flash('Valve turned on with avilable water {}'.format(tank.available_percentage), category='success')
 
             # publish on mesasge
@@ -207,6 +213,10 @@ def switch_valve():
 
     else:
         valve.status = 0
+        db.session.commit()
+
+        valve_log = ValveLogs(valve_id=valve.id, status=0, time=datetime.now())
+        db.session.add(valve_log)
         db.session.commit()
 
         flash('Valve turned off remaining water {}'.format(tank.available_percentage), category='success')
@@ -246,3 +256,12 @@ def update_tank(tank_location, available_percentage):
     db.session.commit()
 
     return
+
+
+@app.route('/valve-logs', methods=['GET'])
+def valve_log():
+    if request.method == 'GET':
+        query = db.select(ValveLogs.status, ValveLogs.time, Valve.location, Valve.valve_no).select_from(ValveLogs).join(Valve, Valve.id == ValveLogs.valve_id)
+        valve_logs = db.session.execute(query).all()
+
+        return render_template('valve_logs.html', logs=valve_logs)

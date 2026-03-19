@@ -26,3 +26,10 @@ class TankValve(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tank_id = db.Column(db.Integer, db.ForeignKey('tank.id'), nullable=False)
     valve_id = db.Column(db.Integer, db.ForeignKey('valve.id'), nullable=False)
+
+
+class ValveLogs(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    valve_id = db.Column(db.Integer, db.ForeignKey('valve.id'), nullable=False)
+    status = db.Column(db.Integer, nullable=False)
+    time = db.Column(db.DateTime, nullable=False)
