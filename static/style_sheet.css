@@ -1,4 +1,4 @@
-:root {
+/* :root {
     --bs-primary: 	#2D6A4F;
     --bs-primary-rgb: 169, 171, 136;
 
@@ -12,9 +12,9 @@
 
     --bs-secondary: #40916C;
     --bs-secondary-rgb: 212, 195, 161;
-}
+} */
 
-.btn-primary{
+/* .btn-primary{
     --bs-btn-bg: var(--bs-primary);
     --bs-btn-border-color: var(--bs-primary);
     --bs-btn-hover-bg: 	#24523d;
@@ -31,13 +31,9 @@
 .accordion-button:not(.collapsed){
     background-color: rgba(var(--bs-primary-rgb), 0.2);
     color: rgb(0, 0, 0);
-}
+} */
 
-/* .nav-container {
-    padding: 1% 1% 1% 1%;
-}*/
-
-.navbar-dark {
+/* .navbar-dark {
     background-color: var(--bs-primary);
 } 
 
@@ -54,9 +50,9 @@
 }
 
 .nav-link:hover {
-    color: rgba(var(--bs-primary-rgb), 0.9);
+    color: rgba(var(--bs-primary-rgb), 5);
 }
 
 .container {
     padding: 2% 2% 2% 2%;
-}
+} */

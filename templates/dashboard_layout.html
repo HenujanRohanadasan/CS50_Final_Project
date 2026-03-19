@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-bs-theme="auto">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,21 +19,32 @@
     </head>
 
     <body>
-        <nav class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-0">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/" style="padding-left: 2%;">
-                <i class="bi bi-leaf"></i>
-                Name
-            </a>
-            <ul class="navbar-nav px-3">
-                <li class="nav-item text-nowrap">
-                    <a class="nav-link" style="color: #fafafa" href="/logout">Logout</a>
-                </li>
-            </ul>
-        </nav>
+        <header>
+            <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+                <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/" style="padding-left: 2%;">
+                    <i class="bi bi-leaf"></i>
+                    Name
+                </a>
+                <ul class="navbar-nav flex-row px-3">
+                    <li class="nav-item me-3 d-flex align-items-center justify-content-center">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="navbar-toggler d-md-none collapsed m-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </header>
 
         <div class="container-fluid">
             <div class="row">
-                <nav class="col-md-2 d-none d-md-block bg-secondary sidebar">
+                <nav class="col-md-2 offcanvas-md offcanvas-start bg-light sidebar" id="sidebarMenu">
+                    <div class="offcanvas-header d-md-none">
+                        <h5 class="offcanvas-title" style="color: var(--bs-primary);" id="sidebarMenuLabel">Menu</h5>
+                        <button type="button" class="btn-close btn-close-primary" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu" aria-label="Close"></button>
+                    </div>
                     <div class="sidebar-sticky">
                         <ul class="nav flex-column">
                             <br>
