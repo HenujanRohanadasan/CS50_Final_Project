@@ -2,49 +2,90 @@
 
 {% block title %}Home{% endblock %}
 
-{% block main %}
-    <div class="container">
-        <h3 style="text-align: center;">Control Valve</h3>
-        <div class="accordion" id="accordion">
-            {% for location in valves.keys() %}
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button type="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ location }}" aria-expanded="true" aria-controls="collapse-{{ location }}">
-                            Location - {{ location }}
-                        </button>
-                    </h2>
-                    {% for valve_no in valves[location] %}
-                        <div class="accordion-collapse collapse show" id="collapse-{{ location }}" data-bs-parent="accordion">
-                            <div class="accordion-body">
-                                <div class="row">
-                                    <div class="col text-start">
-                                        <h5>
-                                            Valve Number - {{ valve_no[0] }}
-                                        </h5>
-                                    </div>
-                                    <div class="col text-center">
-                                        <h5>
-                                            Valve Status - {% if valve_no[1] == 1 %} ON {% else %} OFF {% endif %}
-                                        </h5>
-                                    </div>
-                                    <div class="col text-center">
-                                        <h5>
-                                            Available Water - {{ valve_no[2] }} %
-                                        </h5>
-                                    </div>
-                                    <div class="col text-end">
-                                        <form action="/valve-switch-status" method="post">
-                                            <input name="location" type="hidden" value="{{ location }}">
-                                            <input name="valve_no" type="hidden" value="{{ valve_no[0] }}">
-                                            <button type="submit" class="btn btn-primary">Switch</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
+{% block heading %}
+    Example Chart
+{% endblock %}
+
+{% block chart %}
+    <canvas class="my-4" id="myChart" width="900" height="380"></canvas>
+{% endblock %}
+
+{% block chart_script %}
+    <!-- Graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.1/dist/Chart.min.js"></script>
+    <script>
+        var ctx = document.getElementById("myChart");
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+            labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+            datasets: [{
+                data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
+                lineTension: 0,
+                backgroundColor: 'transparent',
+                borderColor: '#007bff',
+                borderWidth: 4,
+                pointBackgroundColor: '#007bff'
+            }]
+            },
+            options: {
+            scales: {
+                yAxes: [{
+                ticks: {
+                    beginAtZero: false
+                }
+                }]
+            },
+            legend: {
+                display: false,
+            }
+            }
+        });
+    </script>
+{% endblock %}
+
+{% block table %}
+    <h3 style="text-align: center;">Control Valve</h3>
+    <div class="accordion" id="accordion">
+        {% for location in valves.keys() %}
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button type="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ location }}" aria-expanded="true" aria-controls="collapse-{{ location }}">
+                        Location - {{ location }}
+                    </button>
+                </h2>
+                
+                <div class="accordion-collapse collapse show" id="collapse-{{ location }}" data-bs-parent="accordion">
+                    <div class="accordion-body">
+                        {% for valve_no in valves[location] %}
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Valve Number</th>
+                                        <th scope="col">Valve Status</th>
+                                        <th scope="col">Available Water</th>
+                                        <th scope="col">Switch</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{ valve_no[0] }}</td>
+                                        <td>{% if valve_no[1] == 1 %} ON {% else %} OFF {% endif %}</td>
+                                        <td>{{ valve_no[2] }} %</td>
+                                        <td>
+                                            <form action="/valve-switch-status" method="post">
+                                                <input name="location" type="hidden" value="{{ location }}">
+                                                <input name="valve_no" type="hidden" value="{{ valve_no[0] }}">
+                                                <button type="submit" class="btn btn-primary">Switch</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        {% endfor %}
+                    </div>
                 </div>
-            {% endfor %}
-        </div>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}

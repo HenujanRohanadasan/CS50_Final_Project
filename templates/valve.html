@@ -1,62 +1,72 @@
-{% extends 'layout.html' %}
+{% extends 'dashboard_layout.html' %}
 
 {% block title %}
     Valve
 {% endblock %}
 
-{% block main %}
-    <div class="container">
-        <div style="border-radius: 5px; border-style: solid; border-color: #efefef">
-            <div style="padding: 5% 5% 5% 5%; background-color: #eeeeee">
-                <h3 style="text-align: center; justify-content: center">Add Valve</h3>
-                <form action="/valve" method="post">
-                    <div class="mb-3">
-                    <label for="location" class="form-label">Location</label>
-                    <input type="text" class="form-control" id="location" name="location" placeholder="Location" autofocus autocomplete="off">
-                </div>
-                <div class="mb-3">
-                    <label for="valve_no" class="form-label">Valve number</label>
-                    <input type="valve_no" class="form-control" id="valve_no" name="valve_no" placeholder="Valve number" autocomplete="off">
-                </div>
-                <button type="submit" class="btn btn-primary">Add</button>
-                </form>
-            </div>
-        </div>
-        <br>
-        <div style="padding-left: 30%; padding-right: 30%">
-            <h3 style="text-align: center;">Valves</h3>
-            <br>
-            <div class="accordion" id="accordion">
-                {% for location in valves.keys() %}
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-{{ location }}" aria-expanded="false" aria-controls="collapse-{{ location }}">
-                                {{ location }}
-                            </button>
-                        </h2>
-                        {% for valve_no in valves[location] %}
-                            <div class="accordion-collapse collapse" id="collapse-{{ location }}" data-bs-parent="accordion">
-                                <div class="accordion-body">
-                                    <div class="row">
-                                        <div class="col text-start">
-                                            <h5>
-                                                {{ valve_no }}
-                                            </h5>
-                                        </div>
-                                        <div class="col text-end">
-                                            <form action="/valve-delete" method="post">
+{% block heading %}
+    Add Valve
+{% endblock %}
+
+{% block table %}
+    <br>
+    <h2>
+        Valves
+    </h2>
+    <div class="accordion" id="accordion">
+        {% for location in valves.keys() %}
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-{{ location }}" aria-expanded="false" aria-controls="collapse-{{ location }}">
+                        {{ location }}
+                    </button>
+                </h2>
+                {% for valve_no in valves[location] %}
+                    <div class="accordion-collapse collapse" id="collapse-{{ location }}" data-bs-parent="accordion">
+                        <div class="accordion-body">
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Valve Number</th>
+                                        <th scope="col">Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{ valve_no }}</td>
+                                        <td>
+                                             <form action="/valve-delete" method="post">
                                                 <input name="location" type="hidden" value="{{ location }}">
                                                 <input name="valve_no" type="hidden" value="{{ valve_no }}">
                                                 <button type="submit" class="btn btn-danger">Delete</button>
                                             </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 {% endfor %}
             </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block chart %}
+    <div style="border-radius: 5px; border-style: solid; border-color: #efefef">
+        <div style="padding: 5% 5% 5% 5%; background-color: #eeeeee">
+            <h3 style="text-align: center; justify-content: center">Add Valve</h3>
+            <form action="/valve" method="post">
+                <div class="mb-3">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" class="form-control" id="location" name="location" placeholder="Location" autofocus autocomplete="off">
+            </div>
+            <div class="mb-3">
+                <label for="valve_no" class="form-label">Valve number</label>
+                <input type="valve_no" class="form-control" id="valve_no" name="valve_no" placeholder="Valve number" autocomplete="off">
+            </div>
+            <button type="submit" class="btn btn-primary">Add</button>
+            </form>
         </div>
     </div>
 {% endblock %}
