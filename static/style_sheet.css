@@ -56,3 +56,23 @@
 .container {
     padding: 2% 2% 2% 2%;
 } */
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f7f6; /* A very soft, clean grayish-green tint */
+    color: #2c3e50;
+}
+
+.login-wrapper {
+    min-height: 100vh;
+}
+
+            /* The upgraded, professional card container */
+.login-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Soft, modern shadow */
+    width: 100%;
+    max-width: 420px; /* Constrains the width nicely for a login form */
+    padding: 3rem;
+}
